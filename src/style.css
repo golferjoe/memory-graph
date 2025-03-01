@@ -1,0 +1,111 @@
+:root {
+    --text-color: rgb(225, 225, 225);
+    --bg-color: rgb(15, 15, 15);
+    --bg2-color: rgb(30, 30, 30);
+    --border-color: rgb(100, 100, 100);
+    --glow-color: rgb(80, 80, 80);
+    --keybinds-color: rgb(150, 150, 150);
+}
+
+/* INTERFACE */
+.main {
+    width: 100vw;
+    height: 100vh;
+    font-family: monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.node-diagram {
+    position: relative;
+    height: 100%;
+}
+
+.context-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    position: absolute;
+    padding: 5px;
+
+    background-color: var(--bg2-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--glow-color);
+}
+
+.context-menu_button {
+    cursor: pointer;
+
+    padding: 5px 15px;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+
+    transition: background-color 100ms ease-out;
+}
+
+.context-menu_button:hover {
+    background-color: var(--bg2-color);
+}
+
+/* NODES */
+.node {
+    position: absolute;
+    width: 140px;
+    cursor: grab;
+    user-select: none;
+
+    background-color: var(--bg2-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--glow-color);
+}
+
+.node-title {
+    font-size: 16px;
+    margin: 0;
+    padding: 4px 0;
+    text-align: center;
+    background-color: rgb(60, 60, 60);
+}
+
+.node-value {
+    font-size: 14px;
+    margin: 2px 4px;
+}
+
+/* CONNECTORS */
+.arrow {
+    position: absolute;
+    height: 2px;
+    background-color: var(--text-color);
+    transform-origin: 0% 50%;
+}
+
+.arrow-head {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 12px solid var(--text-color);
+    transform-origin: 50% 50%;
+}
+
+/* keybinds */
+.keybinds {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+
+    user-select: none;
+    pointer-events: none;
+
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    font-size: 18px;
+    letter-spacing: -1px;
+    opacity: 0.7;
+}
