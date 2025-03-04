@@ -16,8 +16,8 @@ export function NodeDiagram() {
                               x: e.clientX - context.cursorOffset.x,
                               y: e.clientY - context.cursorOffset.y,
                           }
-                        : node
-                )
+                        : node,
+                ),
             );
         }
     };
@@ -33,20 +33,18 @@ export function NodeDiagram() {
             onMouseUp={() => context.setSelectedNode(null)}
             onClick={closeContextMenu}
         >
-            {context.nodes.map(node => (
-                <Node
-                    key={node.uid}
-                    {...node}
-                />
+            {context.nodes.map((node) => (
+                <Node key={node.uid} {...node} />
             ))}
 
             {context.links.map(({ fromUid, toUid }, index) => (
                 <Arrow
                     key={index}
-                    from={context.nodes.find(n => n.uid === fromUid)}
-                    to={context.nodes.find(n => n.uid === toUid)}
+                    from={context.nodes.find((n) => n.uid === fromUid)}
+                    to={context.nodes.find((n) => n.uid === toUid)}
                 />
             ))}
         </div>
     );
 }
+

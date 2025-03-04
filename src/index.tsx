@@ -7,9 +7,9 @@ import { App } from "./App";
 function Index() {
     return (
         <AppContext.Provider value={createAppContext()}>
-            <App/>
+            <App />
         </AppContext.Provider>
     );
 }
 
-render(<Index/>, document.getElementById("app"));
+render(<Index />, document.getElementById("app"));
