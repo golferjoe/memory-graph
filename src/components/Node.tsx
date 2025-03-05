@@ -1,10 +1,33 @@
-import { useContext } from "preact/hooks";
+import { useContext, useEffect, useRef } from "preact/hooks";
 import { NodeBase, NodeLink } from "../types";
 import { AppContext } from "../context/appContext";
 import { EditableText } from "./EditableText";
 
 export function Node({ uid, x, y }: NodeBase) {
     const context = useContext(AppContext);
+    const nodeRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!nodeRef.current) {
+            return;
+        }
+
+        const observer = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                const { width, height } = entry.contentRect;
+
+                context.setNodes((nodes) =>
+                    nodes.map((node) =>
+                        node.uid === uid ? { ...node, width, height } : node,
+                    ),
+                );
+            }
+        });
+
+        observer.observe(nodeRef.current);
+
+        return () => observer.disconnect();
+    }, []);
 
     const mouseDown = (e: MouseEvent) => {
         if (e.ctrlKey && context.linkStart !== uid) {
@@ -46,6 +69,7 @@ export function Node({ uid, x, y }: NodeBase) {
 
     return (
         <div
+            ref={nodeRef}
             className="node"
             style={{
                 left: x,

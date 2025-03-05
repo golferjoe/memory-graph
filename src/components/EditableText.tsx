@@ -6,9 +6,9 @@ interface EditableTextProps {
 }
 
 export function EditableText({ className, initialValue }: EditableTextProps) {
-    const [value, setValue] = useState(initialValue);
-    const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [value, setValue] = useState(initialValue);
 
     useEffect(() => {
         if (isEditing && inputRef.current) {

@@ -1,25 +1,28 @@
 import { createContext } from "preact";
-import { useState } from "preact/hooks";
+import { Dispatch, StateUpdater, useState } from "preact/hooks";
 import { ContextMenuBase, CursorOffset, NodeBase, NodeLink } from "../types";
 
+type ContextMenuType = ContextMenuBase | null;
+type NodeUidType = string | null;
+
 interface AppContextValues {
-    contextMenu: ContextMenuBase | null;
-    setContextMenu: (contextMenu: ContextMenuBase | null) => void;
+    contextMenu: ContextMenuType;
+    setContextMenu: Dispatch<StateUpdater<ContextMenuType>>;
 
     nodes: NodeBase[];
-    setNodes: (nodes: NodeBase[]) => void;
+    setNodes: Dispatch<StateUpdater<NodeBase[]>>;
 
-    selectedNode: string | null;
-    setSelectedNode: (node: string | null) => void;
+    selectedNode: NodeUidType;
+    setSelectedNode: Dispatch<StateUpdater<NodeUidType>>;
 
     links: NodeLink[];
-    setLinks: (links: NodeLink[]) => void;
+    setLinks: Dispatch<StateUpdater<NodeLink[]>>;
 
-    linkStart: string | null;
-    setLinkStart: (linkStart: string | null) => void;
+    linkStart: NodeUidType;
+    setLinkStart: Dispatch<StateUpdater<NodeUidType>>;
 
     cursorOffset: CursorOffset;
-    setCursorOffset: (cursorOffset: CursorOffset) => void;
+    setCursorOffset: Dispatch<StateUpdater<CursorOffset>>;
 }
 
 const AppContext = createContext<AppContextValues>(null);
