@@ -1,36 +1,20 @@
 import { ArrowBase, NodeBase } from "../types";
 
 function calculateAnchorPoint(from: NodeBase, to: NodeBase) {
-    const xDistance = Math.abs(from.x - to.x);
     const yDistance = Math.abs(from.y - to.y);
 
-    const calculateX = () => {
-        if (xDistance <= from.width && xDistance > 0) {
-            return from.x + from.width / 2;
-        } else if (from.x < to.x) {
-            return from.x + from.width;
+    if (yDistance < from.height && yDistance > 0) {
+        const y = from.y + from.height / 2;
+        if (from.x < to.x) {
+            return { x: from.x + from.width, y };
         } else {
-            return from.x;
+            return { x: from.x, y };
         }
-    };
-
-    const calculateY = () => {
-        if (yDistance <= from.height && yDistance >= 0) {
-            // nodes on the same height
-            return from.y + from.height / 2; // middle
-        } else if (from.y < to.y) {
-            // target node is below
-            return from.y + from.height; // bottom
-        } else {
-            // target node is above
-            return from.y; // top
-        }
-    };
-
-    return {
-        x: calculateX(),
-        y: calculateY(),
-    };
+    } else if (from.y < to.y) {
+        return { x: from.x + from.width / 2, y: from.y + from.height };
+    } else if (from.y > to.y) {
+        return { x: from.x + from.width / 2, y: from.y };
+    }
 }
 
 export function Arrow({ from, to }: ArrowBase) {

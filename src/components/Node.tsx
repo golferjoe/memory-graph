@@ -3,7 +3,7 @@ import { NodeBase, NodeLink } from "../types";
 import { AppContext } from "../context/appContext";
 import { EditableText } from "./EditableText";
 
-export function Node({ uid, x, y }: NodeBase) {
+export function Node({ uid, x, y, width, height }: NodeBase) {
     const context = useContext(AppContext);
     const nodeRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +28,21 @@ export function Node({ uid, x, y }: NodeBase) {
 
         return () => observer.disconnect();
     }, []);
+
+    // check if node is off-screen after dimensions have changed
+    useEffect(() => {
+        if (x + width > window.innerWidth) {
+            x = window.innerWidth - width - 2;
+        }
+
+        if (y + height > window.innerHeight) {
+            y = window.innerHeight - height - 3;
+        }
+
+        context.setNodes((nodes) =>
+            nodes.map((node) => (node.uid === uid ? { ...node, x, y } : node)),
+        );
+    }, [width, height]);
 
     const mouseDown = (e: MouseEvent) => {
         if (e.ctrlKey && context.linkStart !== uid) {

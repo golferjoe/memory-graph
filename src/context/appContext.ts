@@ -28,12 +28,15 @@ interface AppContextValues {
 const AppContext = createContext<AppContextValues>(null);
 
 function createAppContext(): AppContextValues {
-    const [contextMenu, setContextMenu] = useState(null);
-    const [nodes, setNodes] = useState([]);
-    const [selectedNode, setSelectedNode] = useState(null);
-    const [links, setLinks] = useState([]);
-    const [linkStart, setLinkStart] = useState(null);
-    const [cursorOffset, setCursorOffset] = useState({ x: 0, y: 0 });
+    const [contextMenu, setContextMenu] = useState<ContextMenuType>(null);
+    const [nodes, setNodes] = useState<NodeBase[]>([]);
+    const [selectedNode, setSelectedNode] = useState<NodeUidType>(null);
+    const [links, setLinks] = useState<NodeLink[]>([]);
+    const [linkStart, setLinkStart] = useState<NodeUidType>(null);
+    const [cursorOffset, setCursorOffset] = useState<CursorOffset>({
+        x: 0,
+        y: 0,
+    });
 
     return {
         contextMenu,

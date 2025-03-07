@@ -6,7 +6,7 @@ I built this tool while learning reverse engineering to help visualize pointer c
 
 ## Features & Contributions
 
-Contributions are welcome, feel free to submit a pull request!
+Contributions are welcome, feel free to submit a pull request!  
 If you have a feature request or an improvement suggestion, please [open an issue](https://github.com/golferjoe/memory-graph/issues) describing your idea.
 
 ## Build

@@ -10,11 +10,11 @@ export function App() {
     const openContextMenu = (e: MouseEvent) => {
         e.preventDefault();
         context.setContextMenu({ x: e.clientX, y: e.clientY });
-    }
+    };
 
     const closeContextMenu = () => {
         context.setContextMenu(null);
-    }
+    };
 
     return (
         <div
@@ -22,9 +22,10 @@ export function App() {
             onContextMenu={openContextMenu}
             onClick={closeContextMenu}
         >
-            <NodeDiagram/>
-            <KeyBinds/>
-            <ContextMenu/>
+            <NodeDiagram />
+            <KeyBinds />
+            <ContextMenu />
         </div>
     );
 }
+
