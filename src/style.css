@@ -92,6 +92,15 @@
 }
 
 /* NODES */
+.grab_node {
+    border-color: var(--grab-color) !important;
+}
+
+.link_node {
+    border-color: var(--link-color) !important;
+    transform: scale(1.1);
+}
+
 .node {
     position: absolute;
     width: 160px;

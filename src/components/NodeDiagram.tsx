@@ -23,9 +23,10 @@ export function NodeDiagram() {
     useEffect(() => {
         const onResize = () => {
             // loop through all nodes and check if they are off-screen, if so then move them to the screen edge
-            context.setNodes((nodes) =>
-                nodes.map((node) => clampNodePosition(node)),
+            const updatedNodes = context.nodes.value.map((node) =>
+                clampNodePosition(node),
             );
+            context.nodes.value = updatedNodes;
         };
 
         window.addEventListener("resize", onResize);
@@ -34,48 +35,48 @@ export function NodeDiagram() {
     }, []);
 
     const mouseMove = (e: MouseEvent) => {
-        if (context.selectedNode !== null) {
-            const newNodes = context.nodes.map((node) =>
-                node.uid === context.selectedNode
+        if (context.selectedNode.value !== null) {
+            const newNodes = context.nodes.value.map((node) =>
+                node.uid === context.selectedNode.value
                     ? {
                           ...node,
                           x: clampNumber(
-                              e.clientX - context.cursorOffset.x,
+                              e.clientX - context.cursorOffset.value.x,
                               0,
                               window.innerWidth - node.width - 2,
                           ),
                           y: clampNumber(
-                              e.clientY - context.cursorOffset.y,
+                              e.clientY - context.cursorOffset.value.y,
                               0,
                               window.innerHeight - node.height - 3,
                           ),
                       }
                     : node,
             );
-            context.setNodes(newNodes);
+            context.nodes.value = newNodes;
         }
     };
 
     const closeContextMenu = () => {
-        context.setContextMenu(null);
+        context.contextMenu.value = null;
     };
 
     return (
         <div
             className="node-diagram"
             onMouseMove={mouseMove}
-            onMouseUp={() => context.setSelectedNode(null)}
+            onMouseUp={() => (context.selectedNode.value = null)}
             onClick={closeContextMenu}
         >
-            {context.nodes.map((node) => (
+            {context.nodes.value.map((node) => (
                 <Node key={node.uid} {...node} />
             ))}
 
-            {context.links.map(({ fromUid, toUid }, index) => (
+            {context.links.value.map(({ fromUid, toUid }, index) => (
                 <Arrow
                     key={index}
-                    from={context.nodes.find((n) => n.uid === fromUid)}
-                    to={context.nodes.find((n) => n.uid === toUid)}
+                    from={context.nodes.value.find((n) => n.uid === fromUid)}
+                    to={context.nodes.value.find((n) => n.uid === toUid)}
                 />
             ))}
         </div>

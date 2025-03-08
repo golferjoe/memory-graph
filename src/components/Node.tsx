@@ -16,11 +16,10 @@ export function Node({ uid, x, y, width, height }: NodeBase) {
             for (const entry of entries) {
                 const { width, height } = entry.contentRect;
 
-                context.setNodes((nodes) =>
-                    nodes.map((node) =>
-                        node.uid === uid ? { ...node, width, height } : node,
-                    ),
+                const newNodes = context.nodes.value.map((node) =>
+                    node.uid === uid ? { ...node, width, height } : node,
                 );
+                context.nodes.value = newNodes;
             }
         });
 
@@ -39,75 +38,73 @@ export function Node({ uid, x, y, width, height }: NodeBase) {
             y = window.innerHeight - height - 3;
         }
 
-        context.setNodes((nodes) =>
-            nodes.map((node) => (node.uid === uid ? { ...node, x, y } : node)),
+        const newNodes = context.nodes.value.map((node) =>
+            node.uid === uid ? { ...node, x, y } : node,
         );
+        context.nodes.value = newNodes;
     }, [width, height]);
 
     const mouseDown = (e: MouseEvent) => {
-        if (e.ctrlKey && context.linkStart !== uid) {
-            // remove node and all links
-            context.setLinks(
-                context.links.filter(
-                    (link) => link.fromUid !== uid && link.toUid !== uid,
-                ),
+        if (e.ctrlKey && context.linkStart.value !== uid) {
+            const filteredLinks = context.links.value.filter(
+                (link) => link.fromUid !== uid && link.toUid !== uid,
             );
-            context.setNodes(context.nodes.filter((node) => node.uid !== uid));
+            context.links.value = filteredLinks;
+
+            const filteredNodes = context.nodes.value.filter(
+                (node) => node.uid !== uid,
+            );
+            context.nodes.value = filteredNodes;
         } else if (e.shiftKey) {
-            if (context.linkStart === null) {
+            if (context.linkStart.value === null) {
                 // start linking
-                context.setLinkStart(uid);
-            } else if (context.linkStart !== uid) {
+                context.linkStart.value = uid;
+            } else if (context.linkStart.value !== uid) {
                 // check if the two nodes are already linked
-                const alreadyLinked = context.links.some(
+                const alreadyLinked = context.links.value.some(
                     (link) =>
-                        (link.fromUid === context.linkStart &&
+                        (link.fromUid === context.linkStart.value &&
                             link.toUid === uid) ||
                         (link.fromUid === uid &&
-                            link.toUid === context.linkStart),
+                            link.toUid === context.linkStart.value),
                 );
 
                 if (!alreadyLinked) {
                     // link to already selected node
                     const newLink: NodeLink = {
-                        fromUid: context.linkStart,
+                        fromUid: context.linkStart.value,
                         toUid: uid,
                     };
-                    context.setLinks([...context.links, newLink]);
+
+                    context.links.value = [...context.links.value, newLink];
                 }
 
-                context.setLinkStart(null);
+                context.linkStart.value = null;
             }
         } else {
             // move node
-            const node = context.nodes.find((n) => n.uid === uid);
+            const node = context.nodes.value.find((n) => n.uid === uid);
+
             if (node) {
-                context.setCursorOffset({
+                context.cursorOffset.value = {
                     x: e.clientX - node.x,
                     y: e.clientY - node.y,
-                });
-                context.setSelectedNode(uid);
+                };
+                context.selectedNode.value = uid;
             }
         }
     };
 
-    const isSelected = context.selectedNode === uid; // is node grabbed
-    const isLink = context.linkStart === uid; // whether the current node is being linked
+    const isGrabbed = context.selectedNode.value === uid;
+    const isLinking = context.linkStart.value === uid;
 
     return (
         <div
             ref={nodeRef}
-            className="node"
+            className={`node ${isGrabbed && "grab_node"} ${isLinking && "link_node"}`}
             style={{
                 left: x,
                 top: y,
-                ...(isSelected && {
-                    borderColor: "var(--grab-color)",
-                }),
-                ...(isLink && {
-                    borderColor: "var(--link-color)",
-                    transform: "scale(1.1)",
-                }),
             }}
             onMouseDown={mouseDown}
         >

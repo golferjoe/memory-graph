@@ -6,7 +6,7 @@ import { NodeBase } from "../types";
 export function ContextMenu() {
     const context = useContext(AppContext);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [pos, setPos] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
     // clamp context menu position after opening
     useEffect(() => {
@@ -16,40 +16,40 @@ export function ContextMenu() {
 
         const { width, height } = menuRef.current.getBoundingClientRect();
 
-        let x = context.contextMenu.x;
+        let x = context.contextMenu.value.x;
         if (x + width > window.innerWidth) {
             x = window.innerWidth - width;
         }
 
-        let y = context.contextMenu.y;
+        let y = context.contextMenu.value.y;
         if (y + height > window.innerHeight) {
             y = window.innerHeight - height - 1;
         }
 
-        setPos({ x, y });
-    }, [context.contextMenu]);
+        setPosition({ x, y });
+    }, [context.contextMenu.value]);
 
     const addNode = () => {
         const newNode: NodeBase = {
             uid: nanoid(8),
-            x: context.contextMenu.x,
-            y: context.contextMenu.y,
+            x: context.contextMenu.value.x,
+            y: context.contextMenu.value.y,
             width: 0,
             height: 0,
         };
 
-        context.setNodes([...context.nodes, newNode]);
-        context.setContextMenu(null);
+        context.nodes.value = [...context.nodes.value, newNode];
+        context.contextMenu.value = null;
     };
 
     return (
-        context.contextMenu && (
+        context.contextMenu.value && (
             <div
                 ref={menuRef}
                 className="context-menu"
                 style={{
-                    left: pos.x,
-                    top: pos.y,
+                    left: position.x,
+                    top: position.y,
                 }}
                 onClick={(e) => e.stopPropagation()} // Prevent the click event from bubbling up to the main div
             >

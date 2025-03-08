@@ -9,11 +9,11 @@ export function App() {
 
     const openContextMenu = (e: MouseEvent) => {
         e.preventDefault();
-        context.setContextMenu({ x: e.clientX, y: e.clientY });
+        context.contextMenu.value = { x: e.clientX, y: e.clientY };
     };
 
     const closeContextMenu = () => {
-        context.setContextMenu(null);
+        context.contextMenu.value = null;
     };
 
     return (
@@ -28,4 +28,3 @@ export function App() {
         </div>
     );
 }
-
