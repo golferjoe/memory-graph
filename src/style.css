@@ -1,3 +1,29 @@
+/* fonts */
+@font-face {
+    font-family: "JetBrains Mono";
+    src: url("fonts/JetBrainsMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: italic;
+    src: url("fonts/JetBrainsMono-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-weight: bold;
+    src: url("fonts/JetBrainsMono-Bold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-weight: bold;
+    font-style: italic;
+    src: url("fonts/JetBrainsMono-BoldItalic.woff2") format("woff2");
+}
+
+/* styles */
 :root {
     /* I should probably use some already existing color scheme instead of creating my own */
     --text-color: rgb(225, 225, 225);
@@ -13,7 +39,7 @@
 .main {
     width: 100vw;
     height: 100vh;
-    font-family: monospace;
+    font-family: "JetBrains Mono", monospace;
     background-color: var(--bg-color);
     color: var(--text-color);
 }
@@ -66,7 +92,7 @@
 /* NODES */
 .node {
     position: absolute;
-    width: 140px;
+    width: 160px;
     cursor: grab;
     user-select: none;
     box-sizing: border-box;
@@ -80,7 +106,7 @@
 }
 
 .node-title {
-    font-size: 16px;
+    font-size: 18px;
     padding: 6px 0;
     text-align: center;
     background-color: rgb(60, 60, 60);
@@ -93,7 +119,7 @@
 }
 
 .node-value {
-    font-size: 14px;
+    font-size: 16px;
     padding: 6px 8px;
     overflow-wrap: break-word;
 }
