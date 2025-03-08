@@ -58,12 +58,24 @@ export function Node({ uid, x, y, width, height }: NodeBase) {
                 // start linking
                 context.setLinkStart(uid);
             } else if (context.linkStart !== uid) {
-                // link to already selected node
-                const newLink: NodeLink = {
-                    fromUid: context.linkStart,
-                    toUid: uid,
-                };
-                context.setLinks([...context.links, newLink]);
+                // check if the two nodes are already linked
+                const alreadyLinked = context.links.some(
+                    (link) =>
+                        (link.fromUid === context.linkStart &&
+                            link.toUid === uid) ||
+                        (link.fromUid === uid &&
+                            link.toUid === context.linkStart),
+                );
+
+                if (!alreadyLinked) {
+                    // link to already selected node
+                    const newLink: NodeLink = {
+                        fromUid: context.linkStart,
+                        toUid: uid,
+                    };
+                    context.setLinks([...context.links, newLink]);
+                }
+
                 context.setLinkStart(null);
             }
         } else {

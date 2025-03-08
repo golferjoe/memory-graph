@@ -40,7 +40,9 @@
     width: 100vw;
     height: 100vh;
     font-family: "JetBrains Mono", monospace;
-    background-color: var(--bg-color);
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url("images/bg_tiles.png");
     color: var(--text-color);
 }
 
